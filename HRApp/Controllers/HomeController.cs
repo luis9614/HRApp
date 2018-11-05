@@ -51,13 +51,34 @@ namespace HRApp.Controllers
         [HttpGet]
         public IActionResult AddProgrammer()
         {
-            return View()
+            Programmer programmer = new Programmer();
+            return View(programmer);
         }
 
         [HttpPost]
-        public IActionResult AddProgrammer(IProgrammer model)
+        public IActionResult AddProgrammerToList(Programmer model)
         {
-            return View()
+            ProgrammerFactory Creator = new JuniorCreator();
+            if (model.Role == "JUNIOR"){
+                Creator = new JuniorCreator();
+            }
+            if (model.Role == "SENIOR")
+            {
+                Creator = new JuniorCreator();
+            }
+            if (model.Role == "LEADER")
+            {
+                Creator = new LeaderCreator();
+            }
+            if (model.Role == "ARCHITECT")
+            {
+                Creator = new ArchitectCreator();
+            }
+
+            var res = Creator.CreateProgrammer(model);
+            Programmers.Add(res);
+
+            return RedirectToAction("Index", "Home");
         }
 
 

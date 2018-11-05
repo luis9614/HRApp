@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace HRApp.Models
 {
     public sealed class ProgrammerRoles
@@ -7,6 +9,15 @@ namespace HRApp.Models
         public static readonly string SENIOR = "SENIOR";
         public static readonly string LEADER = "LEADER";
         public static readonly string ARCHITECT = "ARCHITECT";
+
+        public List<string> ToList(){
+            List<string> Roles = new List<string>();
+            Roles.Add(ProgrammerRoles.JUNIOR);
+            Roles.Add(ProgrammerRoles.SENIOR);
+            Roles.Add(ProgrammerRoles.LEADER);
+            Roles.Add(ProgrammerRoles.ARCHITECT);
+            return Roles;
+        }
     }
 
     public abstract class IProgrammer
@@ -38,6 +49,10 @@ namespace HRApp.Models
 
     public class Programmer : IProgrammer
     {
+        public Programmer()
+        {
+
+        }
         public Programmer(int id, string Name, string ImPath)
         {
             this.ID = id;
@@ -206,6 +221,39 @@ namespace HRApp.Models
         }
     }
 
+    public abstract class ProgrammerFactory
+    {
+        public abstract ProgrammerDecorator CreateProgrammer(IProgrammer programmer);
+    }
 
+    public class JuniorCreator : ProgrammerFactory
+    {
+        public override ProgrammerDecorator CreateProgrammer(IProgrammer programmer)
+        {
+            return new JuniorDev(programmer);
+        }
+    }
+
+    public class SeniorCreator : ProgrammerFactory
+    {
+        public override ProgrammerDecorator CreateProgrammer(IProgrammer programmer)
+        {
+            return new SeniorDev(programmer);
+        }
+    }
+    public class LeaderCreator : ProgrammerFactory
+    {
+        public override ProgrammerDecorator CreateProgrammer(IProgrammer programmer)
+        {
+            return new SeniorDev(programmer);
+        }
+    }
+    public class ArchitectCreator : ProgrammerFactory
+    {
+        public override ProgrammerDecorator CreateProgrammer(IProgrammer programmer)
+        {
+            return new ArchitechtDev(programmer);
+        }
+    }
 
 }
