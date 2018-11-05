@@ -1,0 +1,37 @@
+﻿@model List<ProgrammerDecorator>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    <br />
+    <h1>
+        Employees
+    </h1>
+    <a class="btn btn-outline-dark align-right" href="@Url.Action("PromoteProgrammer", "Home")" style="float:right">Add Employee</a>
+</div>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Icon</th>
+                <th scope="col">Role</th>
+                <th scope="col">Name</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var programmer in Model)
+        {
+            <tr>
+                <td><img src="@programmer.ImagePath" alt="Forest"></td>
+                <td>@programmer.GetProgramer().Role</td>
+                <td>@programmer.GetProgramer().Name</td>
+                <td><a class="btn btn-outline-success align-right" href="@Url.Action("PromoteProgrammer", "Home", new { ID = programmer.GetProgramer().ID })">Promote</a> <a class="btn btn-outline-danger align-right" href="@Url.Action("DemoteProgrammer", "Home", new { ID = programmer.GetProgramer().ID })">Demote</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
+
